@@ -2,7 +2,7 @@
 
 angular.module('confusionApp')
 
-    .controller('MenuController', ['$scope', 'menuFactory', function($scope, menuFactory) {
+    .controller('MenuController', ['$scope', 'menuFactory', function ($scope, menuFactory) {
 
         $scope.tab = 1;
         $scope.filtText = '';
@@ -11,15 +11,15 @@ angular.module('confusionApp')
         $scope.showMenu = false;
         $scope.message = "Loading ...";
         menuFactory.getDishes().query(
-            function(response) {
+            function (response) {
                 $scope.dishes = response;
                 $scope.showMenu = true;
             },
-            function(response) {
-                $scope.message = "Error: "+response.status + " " + response.statusText;
+            function (response) {
+                $scope.message = "Error: " + response.status + " " + response.statusText;
             });
 
-        $scope.select = function(setTab) {
+        $scope.select = function (setTab) {
             $scope.tab = setTab;
 
             if (setTab === 2) {
@@ -40,25 +40,25 @@ angular.module('confusionApp')
             return ($scope.tab === checkTab);
         };
 
-        $scope.toggleDetails = function() {
+        $scope.toggleDetails = function () {
             $scope.showDetails = !$scope.showDetails;
         };
     }])
 
-    .controller('ContactController', ['$scope', function($scope) {
+    .controller('ContactController', ['$scope', function ($scope) {
 
-        $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
+        $scope.feedback = {mychannel: "", firstName: "", lastName: "", agree: false, email: ""};
 
-        var channels = [{value:"tel", label:"Tel."}, {value:"Email",label:"Email"}];
+        var channels = [{value: "tel", label: "Tel."}, {value: "Email", label: "Email"}];
 
         $scope.channels = channels;
         $scope.invalidChannelSelection = false;
 
     }])
 
-    .controller('FeedbackController', ['$scope', function($scope) {
+    .controller('FeedbackController', ['$scope', function ($scope) {
 
-        $scope.sendFeedback = function() {
+        $scope.sendFeedback = function () {
 
             console.log($scope.feedback);
 
@@ -68,66 +68,66 @@ angular.module('confusionApp')
             }
             else {
                 $scope.invalidChannelSelection = false;
-                $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
-                $scope.feedback.mychannel="";
+                $scope.feedback = {mychannel: "", firstName: "", lastName: "", agree: false, email: ""};
+                $scope.feedback.mychannel = "";
                 $scope.feedbackForm.$setPristine();
                 console.log($scope.feedback);
             }
         };
     }])
 
-    .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
+    .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function ($scope, $stateParams, menuFactory) {
 
         $scope.showDish = false;
-        $scope.message="Loading ...";
-        $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
+        $scope.message = "Loading ...";
+        $scope.dish = menuFactory.getDishes().get({id: parseInt($stateParams.id, 10)})
             .$promise.then(
-                function(response){
+                function (response) {
                     $scope.dish = response;
                     $scope.showDish = true;
                 },
-                function(response) {
-                    $scope.message = "Error: "+response.status + " " + response.statusText;
+                function (response) {
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
                 }
             );
 
     }])
 
-    .controller('DishCommentController', ['$scope', 'menuFactory', function($scope, menuFactory) {
+    .controller('DishCommentController', ['$scope', 'menuFactory', function ($scope, menuFactory) {
 
-        $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+        $scope.mycomment = {rating: 5, comment: "", author: "", date: ""};
 
         $scope.submitComment = function () {
             $scope.mycomment.date = new Date().toISOString();
             //console.log($scope.mycomment);
             $scope.dish.comments.push($scope.mycomment);
-            menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
+            menuFactory.getDishes().update({id: $scope.dish.id}, $scope.dish);
 
-            $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+            $scope.mycomment = {rating: 5, comment: "", author: "", date: ""};
             $scope.commentForm.$setPristine();
         };
     }])
 
     // implement the IndexController and AboutController here
-    .controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', function($scope, menuFactory, corporateFactory) {
+    .controller('IndexController', ['$scope', 'menuFactory', 'corporateFactory', function ($scope, menuFactory, corporateFactory) {
         $scope.promo = menuFactory.getPromotion(0);
         $scope.leader = corporateFactory.getLeader(3);
 
         $scope.showDish = false;
-        $scope.message="Loading ...";
-        $scope.dish = menuFactory.getDishes().get({id:0})
+        $scope.message = "Loading ...";
+        $scope.dish = menuFactory.getDishes().get({id: 0})
             .$promise.then(
-                function(response){
+                function (response) {
                     $scope.dish = response;
                     $scope.showDish = true;
                 },
-                function(response) {
-                    $scope.message = "Error: "+response.status + " " + response.statusText;
+                function (response) {
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
                 }
             );
     }])
 
-    .controller('AboutController', ['$scope', 'corporateFactory', function($scope, corporateFactory) {
+    .controller('AboutController', ['$scope', 'corporateFactory', function ($scope, corporateFactory) {
         $scope.leaders = corporateFactory.getLeaders();
     }])
 

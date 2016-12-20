@@ -29,10 +29,10 @@
                         <h5>Comments</h5>
                     </div>
                     <div class="col-xs-5">
-                        Order by: <input type="text" ng-model="filter">
+                        Order by: <input type="text" ng-model="orderText">
                     </div>
                 </div>
-                <div class="row" ng-repeat="comment in dish.comments | orderBy: filter">
+                <div class="row" ng-repeat="comment in dish.comments | orderBy: orderText">
                     <blockquote>
                         <p>{{comment.comment}}</p>
                         <footer>Rated {{comment.rating}} <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> by <b>{{comment.author}}</b> @ <i>{{comment.date | date: 'medium' }}</i></footer>
